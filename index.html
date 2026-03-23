@@ -3,64 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supercell Store - 伺服器維護中</title>
+    <title>Supercell Store - 伺服器維護中 (終極玩家版)</title>
     <style>
         /* 1. 全螢幕背景圖設定 */
         body { 
             margin: 0; padding: 0; font-family: 'Arial', sans-serif; 
-            /* 換上超帥的大亂鬥背景 */
             background-image: url('./images/back.jpg'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed;
+            background-size: cover; background-position: center; background-attachment: fixed;
             color: #1a1a1a; overflow: hidden; display: flex; flex-direction: column; height: 100vh; 
             position: relative;
         }
+        
+        /* 半透明暗色遮罩 */
+        .bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.45); z-index: 0; }
 
-        /* 新增：半透明暗色遮罩，讓畫面不會太亂，凸顯中間的卡片 */
-        .bg-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.45); z-index: 0;
-        }
-
-        /* 2. 導覽列 (加上 position: relative 確保在遮罩上方) */
+        /* 2. 導覽列 (像素級還原 + Logo並排) */
         .navbar { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 12px 50px; background-color: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.2); 
             z-index: 100; position: relative;
         }
         .nav-left { display: flex; height: 38px; cursor: pointer; align-items: center; }
-        .logo-supercell { color: #000000; font-family: 'Impact', 'Arial Black', sans-serif; font-size: 16px; line-height: 0.85; letter-spacing: 0.5px; display: flex; flex-direction: column; justify-content: center; }
+        .logo-supercell { 
+            color: #000000; font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 11px; line-height: 1; letter-spacing: 0px; 
+            display: flex; align-items: baseline;
+        }
+        .logo-supercell div { margin-right: 1px; } 
         .logo-store { background-color: #ffc107; color: #ffffff; font-family: 'Arial Black', 'Impact', sans-serif; font-weight: 900; font-size: 18px; padding: 2px 18px; margin-left: 12px; border-radius: 8px; transform: skewX(-12deg); display: flex; align-items: center; }
         .logo-store span { transform: skewX(12deg); }
         .nav-right .login-btn { background-color: #000000; color: #ffffff; padding: 8px 20px; border-radius: 30px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; }
         .id-badge { background-color: #ffffff; color: #000000; font-size: 10px; font-weight: 900; padding: 2px 5px; border-radius: 4px; margin-left: 8px; }
         
+        /* 3. 中間主要內容區 */
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 10; }
         
-        /* 角色圖片：稍微調整大小和位置，配合攤手動作 */
+        /* 遊戲角色圖片：大小和位置 */
         .game-character { position: absolute; z-index: 1; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.4)); }
         .char-king { width: 220px; left: 15%; top: 25%; animation: float 4s ease-in-out infinite; }
-        .char-spike { width: 160px; right: 15%; bottom: 20%; animation: float 3s ease-in-out infinite 1s; }
+        .char-spike { width: 200px; right: 15%; bottom: 18%; animation: float 3s ease-in-out infinite 1s; }
 
-        /* 3. 維護卡片：升級為高級毛玻璃質感 */
+        /* 維護卡片：毛玻璃質感 + 背景紋理 */
         .container { 
             text-align: center; 
-            background: rgba(255, 255, 255, 0.92); /* 微微透明的白色 */
-            backdrop-filter: blur(8px); /* 毛玻璃模糊效果 */
-            padding: 50px 70px; border-radius: 24px; 
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); z-index: 10; 
-            border: 2px solid rgba(255, 255, 255, 0.5); 
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            padding: 60px 80px; border-radius: 30px; 
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4); z-index: 10; 
+            border: 4px solid rgba(255, 255, 255, 0.5); 
+            background-image: linear-gradient(0deg, #f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 900;}
-        .message { font-size: 1.2rem; min-height: 35px; margin-top: 20px; font-weight: bold; color: #333; transition: opacity 0.3s ease; }
-        .loading-animation { margin: 30px auto; width: 70px; height: 70px; background-color: #ffcc00; border-radius: 15px; border: 4px solid #e6b800; animation: bounce-spin 2s infinite ease-in-out; }
-        .btn-retry { margin-top: 30px; padding: 12px 35px; font-size: 1.1rem; font-weight: 900; color: #ffffff; background-color: #0055ff; border: none; border-radius: 30px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 0 #0033cc; position: relative; top: 0; }
-        .btn-retry:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0,85,255,0.4), 0 4px 0 #0033cc; }
-        .btn-retry:active { top: 3px; box-shadow: 0 1px 0 #0033cc; }
+        h1 { font-size: 2.5rem; margin-bottom: 15px; font-weight: 900; color: #000;}
+        .message { font-size: 1.3rem; min-height: 40px; margin-top: 20px; font-weight: bold; color: #333; transition: opacity 0.3s ease; }
+        
+        /* UNO 反轉卡專屬樣式與動畫 */
+        .uno-reverse-card {
+            width: 110px; height: auto;
+            margin: 25px auto 15px auto; display: block;
+            filter: drop-shadow(0 15px 20px rgba(0,255,0,0.3)); 
+            animation: reverse-spin 3s linear infinite; 
+        }
+        
+        /* 按鈕：遊戲感加強 */
+        .btn-retry { margin-top: 40px; padding: 15px 45px; font-size: 1.2rem; font-weight: 900; color: #ffffff; background-color: #0055ff; border: none; border-radius: 40px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 6px 0 #0033cc; position: relative; top: 0; }
+        .btn-retry:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,85,255,0.4), 0 6px 0 #0033cc; }
+        .btn-retry:active { top: 4px; box-shadow: 0 2px 0 #0033cc; }
 
+        /* 動畫區 */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes bounce-spin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(180deg); } }
+        @keyframes reverse-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-180deg) scale(1.1); } 
+            100% { transform: rotate(-360deg) scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -68,7 +83,11 @@
 
     <header class="navbar">
         <div class="nav-left">
-            <div class="logo-supercell"><div>SUP</div><div>ERC</div><div>ELL</div></div>
+            <div class="logo-supercell">
+                <div>SUP</div>
+                <div>ERC</div>
+                <div>ELL</div>
+            </div>
             <div class="logo-store"><span>STORE</span></div>
         </div>
         <div class="nav-right">
@@ -79,21 +98,24 @@
     <div class="main-content">
         <img src="./images/king.png" alt="問號國王" class="game-character char-king">
         <img src="./images/spike1.gif" alt="攤手斯派克" class="game-character char-spike">
+        
         <div class="container">
-            <h1>伺服器正在維護中</h1>
-            <div class="loading-animation"></div>
-            <div class="message" id="dynamic-text">國王正在思考伺服器去哪了...</div>
+            <h1>伺服器維護中</h1>
+            
+            <img src="./images/reverse.png" alt="UNO 反轉卡" class="uno-reverse-card">
+            
+            <div class="message" id="dynamic-text">國王對伺服器打出了一張反轉卡！</div>
             <button class="btn-retry" onclick="checkConnection()">重新連線</button>
         </div>
     </div>
 
     <script>
         const messages = [
-            "國王正在思考伺服器去哪了...",
+            "國王對伺服器打出了一張反轉卡！",
+            "正在把當機狀態反彈給哥布林...",
             "斯派克表示他什麼都不知道 ¯\\_(ツ)_/¯",
             "正在用聖水修復網路連線...",
-            "哥布林似乎偷走了幾條傳輸線...",
-            "快好了！請再給我們一點時間..."
+            "快好了！國王已經重新洗牌了..."
         ];
         
         let messageIndex = 0;
@@ -110,7 +132,7 @@
 
         function checkConnection() {
             const btn = document.querySelector('.btn-retry');
-            btn.innerText = "連線中...";
+            btn.innerText = "重新洗牌中...";
             btn.style.backgroundColor = "#0033aa";
             
             setTimeout(() => {
