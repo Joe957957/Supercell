@@ -15,24 +15,18 @@
         .id-badge { background-color: #ffffff; color: #000000; font-size: 10px; font-weight: 900; padding: 2px 5px; border-radius: 4px; margin-left: 8px; }
         
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
-        
-        /* 角色加入漂浮動畫 */
         .game-character { position: absolute; z-index: 1; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
         .char-king { width: 220px; left: 15%; top: 25%; animation: float 4s ease-in-out infinite; }
         .char-spike { width: 180px; right: 15%; bottom: 20%; animation: float 3s ease-in-out infinite 1s; }
 
         .container { text-align: center; background: #ffffff; padding: 50px 70px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); z-index: 10; border: 4px solid #eaeaea; }
         h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 900;}
-        .message { font-size: 1.2rem; min-height: 35px; margin-top: 20px; font-weight: bold; color: #555; }
-        
-        /* 載入方塊加入旋轉跳躍動畫 */
+        .message { font-size: 1.2rem; min-height: 35px; margin-top: 20px; font-weight: bold; color: #555; transition: opacity 0.3s ease; }
         .loading-animation { margin: 30px auto; width: 70px; height: 70px; background-color: #ffcc00; border-radius: 15px; border: 4px solid #e6b800; animation: bounce-spin 2s infinite ease-in-out; }
-        
         .btn-retry { margin-top: 30px; padding: 12px 35px; font-size: 1.1rem; font-weight: 900; color: #ffffff; background-color: #0055ff; border: none; border-radius: 30px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 0 #0033cc; position: relative; top: 0; }
         .btn-retry:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0,85,255,0.4), 0 4px 0 #0033cc; }
         .btn-retry:active { top: 3px; box-shadow: 0 1px 0 #0033cc; }
 
-        /* 定義關鍵格動畫 */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes bounce-spin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(180deg); } }
     </style>
@@ -54,9 +48,43 @@
         <div class="container">
             <h1>伺服器正在維護中</h1>
             <div class="loading-animation"></div>
-            <div class="message" id="dynamic-text">我們的建築工人正在加緊趕工...</div>
-            <button class="btn-retry">重新連線</button>
+            <div class="message" id="dynamic-text">國王正在思考伺服器去哪了...</div>
+            <button class="btn-retry" onclick="checkConnection()">重新連線</button>
         </div>
     </div>
+
+    <script>
+        const messages = [
+            "國王正在思考伺服器去哪了...",
+            "斯派克表示他什麼都不知道...",
+            "正在用聖水修復網路連線...",
+            "哥布林似乎偷走了幾條傳輸線...",
+            "快好了！請再給我們一點時間..."
+        ];
+        
+        let messageIndex = 0;
+        const textElement = document.getElementById('dynamic-text');
+        
+        setInterval(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            textElement.style.opacity = 0;
+            setTimeout(() => {
+                textElement.innerText = messages[messageIndex];
+                textElement.style.opacity = 1;
+            }, 300);
+        }, 3500);
+
+        function checkConnection() {
+            const btn = document.querySelector('.btn-retry');
+            btn.innerText = "連線中...";
+            btn.style.backgroundColor = "#0033aa";
+            
+            setTimeout(() => {
+                btn.innerText = "重新連線";
+                btn.style.backgroundColor = "#0055ff";
+                alert("伺服器仍在修復中，國王依然很困惑！請稍後再試。");
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
