@@ -14,8 +14,13 @@
         .nav-right .login-btn { background-color: #000000; color: #ffffff; padding: 8px 20px; border-radius: 30px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; }
         .id-badge { background-color: #ffffff; color: #000000; font-size: 10px; font-weight: 900; padding: 2px 5px; border-radius: 4px; margin-left: 8px; }
         
-        /* 新增：卡片與按鈕樣式 */
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
+        
+        /* 新增：遊戲角色圖片的定位 */
+        .game-character { position: absolute; z-index: 1; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
+        .char-king { width: 220px; left: 15%; top: 25%; }
+        .char-spike { width: 180px; right: 15%; bottom: 20%; }
+
         .container { text-align: center; background: #ffffff; padding: 50px 70px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); z-index: 10; border: 4px solid #eaeaea; }
         h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 900;}
         .message { font-size: 1.2rem; min-height: 35px; margin-top: 20px; font-weight: bold; color: #555; }
@@ -37,6 +42,9 @@
     </header>
 
     <div class="main-content">
+        <img src="./images/king.png" alt="問號國王" class="game-character char-king">
+        <img src="./images/spike.gif" alt="斯派克" class="game-character char-spike">
+        
         <div class="container">
             <h1>伺服器正在維護中</h1>
             <div class="loading-animation"></div>
