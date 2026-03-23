@@ -4,6 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supercell Store - 伺服器維護中</title>
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Arial', sans-serif;
+            background-color: #f7f8fa;
+            background-image: 
+                linear-gradient(45deg, #e1e4e9 25%, transparent 25%), 
+                linear-gradient(-45deg, #e1e4e9 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #e1e4e9 75%),
+                linear-gradient(-45deg, transparent 75%, #e1e4e9 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px 20px, 20px 0;
+            color: #1a1a1a; overflow: hidden; display: flex; flex-direction: column; height: 100vh;
+        }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 50px; background-color: #ffffff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08); z-index: 100;
+        }
+        .nav-left { display: flex; height: 38px; cursor: pointer; align-items: center; }
+        .logo-supercell { 
+            color: #000000; font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 16px; line-height: 0.85; letter-spacing: 0.5px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .logo-store { 
+            background-color: #ffc107; color: #ffffff; 
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            font-weight: 900; font-size: 18px; padding: 2px 18px; margin-left: 12px;
+            border-radius: 8px; transform: skewX(-12deg); display: flex; align-items: center;
+        }
+        .logo-store span { transform: skewX(12deg); }
+        .nav-right .login-btn { 
+            background-color: #000000; color: #ffffff; padding: 8px 20px; border-radius: 30px; 
+            font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center;
+        }
+        .id-badge {
+            background-color: #ffffff; color: #000000; font-size: 10px; 
+            font-weight: 900; padding: 2px 5px; border-radius: 4px; margin-left: 8px;
+        }
+    </style>
 </head>
 <body>
     <header class="navbar">
